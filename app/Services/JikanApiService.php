@@ -19,8 +19,10 @@ class JikanApiService
    }
 
 
-   public function findAnimeById($id) {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/anime/{$id}");
+   public function findAnimeByName($name) {
+        $response = Http::withoutVerifying()->get("{$this->baseUrl}/anime/", [
+            'q' => $name
+        ]);
 
         return $response->json();
    }

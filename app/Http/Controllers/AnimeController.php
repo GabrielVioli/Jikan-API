@@ -42,6 +42,19 @@ class AnimeController extends Controller
         return $anime;
     }
 
+    public function showForm() {
+        return view('index'); 
+    }
+
+    public function search(Request $request,  JikanApiService $apiService) {
+        $animeName = $request->input('name');
+
+        $apiResponse = $apiService->findAnimeByName($animeName);
+
+        return $apiResponse;
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
