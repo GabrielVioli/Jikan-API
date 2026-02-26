@@ -2,41 +2,59 @@
 
 namespace App\Services;
 
-
 use Illuminate\Support\Facades\Http;
-/**
- * Class JikanApiService.
- */
+use Illuminate\Support\Facades\Cache;
+use Stichoza\GoogleTranslate\GoogleTranslate;
+
 class JikanApiService
 {
+    protected string $baseUrl;
 
-    #url = https://api.jikan.moe/v4
-
-   protected string $baseUrl;
-
-   public function __construct() {
+    public function __construct() {
         $this->baseUrl = config("services.jikan_api.url");
-   }
+    }
 
+    public function findAnimeByName($name) {
+        return Cache::remember("anime_search_{$name}", 86400, function() use ($name) {
+             $response = Http::withoutVerifying()
+            ->get("{$this->baseUrl}/anime/", [
+                'q' => $name
+            ]);
 
-   public function findAnimeByName($name) {
-        $response = Http::get("{$this->baseUrl}/anime/", [
-            'q' => $name
-        ]);
-        return $response->json();
-   }
+            return $response->json();
+        });
+       
+    }
 
-   public function findAnimeById($id) {
-       $response = Http::get("{$this->baseUrl}/anime/{$id}");
+    public function findAnimeById($id) {
+        return Cache::remember("anime_id_{$id}", 86400, function() use ($id) {
+            $response = Http::withoutVerifying()
+            ->get("{$this->baseUrl}/anime/{$id}");
+            return $response->json();
+        });
+  
+    }
 
-       return $response->json();
-   }
+    public function showImageAnime($id) {
+        return Cache::remember("anime_image_{$id}", 86400, function() use ($id) {
+            $response = Http::withoutVerifying()
+            ->get("{$this->baseUrl}/anime/{$id}/pictures");
+            return $response->json();
+        });
 
+    }
 
+    public function getDescriptionByName($name) {
+        return Cache::remember("anime_description_pt_{$name}", 86400, function () use ($name) {
+            $anime = $this->findAnimeByName($name);
+            $description = $anime['data'][0]['synopsis'];
 
-   public function showImageAnime($id) {
-       $response = Http::get("{$this->baseUrl}/anime/{$id}/pictures");
-       return $response->json();
-   }
+            $tr = new GoogleTranslate('pt');
 
+            $tr->setOptions(['verify' => false]);
+
+            return $tr->translate($description);
+        });
+
+    }
 }
