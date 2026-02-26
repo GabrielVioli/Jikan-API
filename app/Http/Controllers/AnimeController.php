@@ -21,7 +21,7 @@ class AnimeController extends Controller
 
     
 
-    public function showImageAnime(Request $request ,JikanApiService $apiService) {
+    public function showInformationAnime(Request $request ,JikanApiService $apiService) {
         $name = $request->input('name');
         $data = $apiService->findAnimeByName($name);
 

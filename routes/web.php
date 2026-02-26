@@ -7,8 +7,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-Route::get('/search', [AnimeController::class, "showForm"])->name('showForm');
-Route::post('/send-data', [AnimeController::class, "showImageAnime"])->name('showImageAnime');
-Route::post('/searchId', [AnimeController::class, "searchId"])->name('searchId');
+Route::get('/anime/search', [AnimeController::class, "showForm"])->name('anime.search.form');
+Route::post('/anime/search', [AnimeController::class, "showInformationAnime"])->name('anime.search.results');

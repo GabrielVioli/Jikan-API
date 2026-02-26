@@ -12,7 +12,7 @@
     <div class="w-full max-w-2xl bg-white p-12 border border-gray-200">
         <h1 class="text-2xl font-light text-gray-900 mb-8 tracking-wide uppercase text-center">Buscar Anime</h1>
 
-        <form action="{{ route('showImageAnime') }}" method="POST" class="flex flex-col sm:flex-row gap-6 mb-10">
+        <form action="{{ route('anime.search.results') }}" method="POST" class="flex flex-col sm:flex-row gap-6 mb-10">
             @csrf
             <div class="flex-grow">
                 <label for="name" class="sr-only">Nome do Anime</label>
