@@ -25,10 +25,16 @@
             </button>
         </form>
 
-        @if(isset($url) && isset($description))
+        @if(isset($url) && isset($description) && isset($title) && isset($episodes))
             <div class="mt-12 flex flex-col md:flex-row gap-8 items-start pt-8 border-t border-gray-100">
                 <img src="{{ $url }}" alt="Capa do Anime" class="w-full md:w-56 h-auto object-cover grayscale-0 hover:grayscale transition-all duration-500">
                 <div class="flex-1">
+                    <h2 class="text-xl font-medium text-gray-900 tracking-wide uppercase mb-1">
+                        {{ $title }}
+                    </h2>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest block mb-4">
+                        Episódios: {{ $episodes }}
+                    </span>
                     <p class="text-gray-600 leading-relaxed text-justify text-sm">
                         {{ $description }}
                     </p>

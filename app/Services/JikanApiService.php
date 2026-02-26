@@ -47,14 +47,29 @@ class JikanApiService
     public function getDescriptionByName($name) {
         return Cache::remember("anime_description_pt_{$name}", 86400, function () use ($name) {
             $anime = $this->findAnimeByName($name);
-            $description = $anime['data'][0]['synopsis'];
-
+            $description = $anime['data'][0]['synopsis']; 
+            
             $tr = new GoogleTranslate('pt');
 
             $tr->setOptions(['verify' => false]);
 
             return $tr->translate($description);
         });
+    }
+
+
+    public function getQntdEpisodes($name) {
+        $anime = $this->findAnimeByName($name);
+        $episodes = $anime['data'][0]['episodes'];
+
+        return $episodes;
+    }
+
+    public function getAnimeName($name) {
+        $anime = $this->findAnimeByName($name);
+        $title =  $anime['data'][0]['title'];
+
+        return $title;
 
     }
 }

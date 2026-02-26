@@ -28,10 +28,13 @@ class AnimeController extends Controller
         $anime_id = $data['data'][0]['mal_id'];
 
         $imageAnime = $apiService->showImageAnime($anime_id);
+
         $url = $imageAnime['data'][0]['jpg']['image_url'];
         $description = $apiService->getDescriptionByName($name);
+        $episodes = $apiService->getQntdEpisodes($name);
+        $title = $apiService->getAnimeName($name);
 
-        return view('index', compact('url', 'description'));
+        return view('index', compact('url', 'description', 'episodes', 'title'));
     }
 
   
