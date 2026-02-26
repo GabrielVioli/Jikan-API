@@ -7,11 +7,14 @@
     <title>index</title>
 </head>
 <body>
-    <form action="{{ route('send-data') }} " method="POST">
+    <h1>procurar por nome</h1>
+    <form action="{{ route('showImageAnime') }} " method="POST">
         @csrf
         <label for="name">Anime name</label>
         <input type="text" name="name">
         <button type="submit">enviar</button>
     </form>
+
+
 </body>
 </html>

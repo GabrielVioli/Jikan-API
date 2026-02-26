@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\JikanApiService; 
+use App\Services\JikanApiService;
 
 use Illuminate\Http\Request;
 
@@ -42,8 +42,23 @@ class AnimeController extends Controller
         return $anime;
     }
 
+    public function showImageAnime(Request $request ,JikanApiService $apiService) {
+        $name = $request->input('name');
+        $data = $apiService->findAnimeByName($name);
+
+        $anime_id = $data['data'][0]['mal_id'];
+
+        $imageAnime = $apiService->showImageAnime($anime_id);
+        dd($imageAnime['data'][0]['jpg']['image_url']);
+
+        $response = response()->json($data);
+
+        dd($anime_id);
+        return $response;
+    }
+
     public function showForm() {
-        return view('index'); 
+        return view('index');
     }
 
     public function search(Request $request,  JikanApiService $apiService) {
@@ -51,6 +66,14 @@ class AnimeController extends Controller
 
         $apiResponse = $apiService->findAnimeByName($animeName);
 
+        return $apiResponse;
+
+    }
+
+    public function searchId(Request $request, JikanApiService $apiService) {
+        $animeId = $request->input('id');
+
+        $apiResponse = $apiService->findAnimeById($animeId);
         return $apiResponse;
 
     }

@@ -15,16 +15,28 @@ class JikanApiService
    protected string $baseUrl;
 
    public function __construct() {
-        $this->baseUrl = config('services.jikan_api.url');
+        $this->baseUrl = config("services.jikan_api.url");
    }
 
 
    public function findAnimeByName($name) {
-        $response = Http::withoutVerifying()->get("{$this->baseUrl}/anime/", [
+        $response = Http::get("{$this->baseUrl}/anime/", [
             'q' => $name
         ]);
-
         return $response->json();
+   }
+
+   public function findAnimeById($id) {
+       $response = Http::get("{$this->baseUrl}/anime/{$id}");
+
+       return $response->json();
+   }
+
+
+
+   public function showImageAnime($id) {
+       $response = Http::get("{$this->baseUrl}/anime/{$id}/pictures");
+       return $response->json();
    }
 
 }
